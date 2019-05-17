@@ -135,10 +135,24 @@ export class FilePlayer extends Component {
     }
     if (this.shouldUseDASH(url)) {
       getSDK(DASH_SDK_URL.replace('VERSION', dashVersion), DASH_GLOBAL).then(dashjs => {
-        this.dash = dashjs.MediaPlayer().create()
-        this.dash.initialize(this.player, url, this.props.playing)
-        this.dash.getDebug().setLogToBrowserConsole(false)
-        this.dash.setXHRWithCredentialsForType("GET", true);
+          let dashConfig = this.props.config.file.dashConfig;
+          console.log(dashConfig);
+          let results = null;
+        this.dash = dashjs.MediaPlayer().create();
+        this.dash.initialize(this.player, url, this.props.playing);
+        this.dash.setXHRWithCredentialsForType('', true);
+        this.dash.getDebug().setLogToBrowserConsole(true);
+        Object.keys(dashConfig).map(x => {
+            if(dashConfig[x].params) {
+                results = this.dash[x](...dashConfig[x].params)  
+            } else {
+                results = this.dash[x]()
+            }
+
+            if(dashConfig[x].callback){
+                dashConfig[x].callback(results)
+            }
+        });
       })
     }
 

@@ -8,3 +8,4 @@ test
 webpack.*
 webpack.config.*.js
 yarn-error.log
+.history
