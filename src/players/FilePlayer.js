@@ -138,6 +138,7 @@ export class FilePlayer extends Component {
         this.dash = dashjs.MediaPlayer().create()
         this.dash.initialize(this.player, url, this.props.playing)
         this.dash.getDebug().setLogToBrowserConsole(false)
+        this.dash.setXHRWithCredentialsForType("GET", true);
       })
     }
 
